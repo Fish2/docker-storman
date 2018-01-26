@@ -8,7 +8,7 @@ ARG password
 ENV JAVA_HOME=/usr/StorMan/jre
 
 # Install Update and Install Packages
-RUN apt-get update && apt-get remove --purge -y perl openssh-client openssh-server openssh-sftp-server && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::="--force-confold" && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils net-tools unzip && \
+RUN apt-get update && apt-get remove --purge -y openssh-client openssh-server openssh-sftp-server && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::="--force-confold" && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools unzip && \
 
 # Disable SSH
 rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh && \
