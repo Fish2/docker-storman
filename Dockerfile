@@ -19,6 +19,6 @@ rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Ports, Entry Points and Volumes
 EXPOSE 8443
-
+ENTRYPOINT /etc/init.d/stor_redfishserver start && /etc/init.d/stor_tomcat start
 HEALTHCHECK --interval=1m --timeout=5s --retries=3 \
   CMD curl -skSL -D - https://localhost:8443 -o /dev/null || exit 1
