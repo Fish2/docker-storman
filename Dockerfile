@@ -6,6 +6,7 @@ LABEL maintainer="fish2"
 # Set correct environment variables
 ARG password
 ENV JAVA_HOME=/usr/StorMan/jre
+CMD ["/sbin/my_init"]
 
 # Install Update and Install Packages
 RUN apt-get update && apt-get remove --purge -y openssh-client openssh-server openssh-sftp-server && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::="--force-confold" && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools unzip && \
@@ -17,8 +18,10 @@ DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/manager/StorMan-3.01-23531_amd64.deb
 apt-get autoremove -y && apt-get clean && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+COPY /StorMan /etc/my_init.d/StorMan
+RUN chmod +x /etc/my_init.d/StorMan
+
 # Ports, Entry Points and Volumes
 EXPOSE 8443
-ENTRYPOINT /etc/init.d/stor_redfishserver start && /etc/init.d/stor_tomcat start
 HEALTHCHECK --interval=1m --timeout=5s --retries=3 \
   CMD curl -skSL -D - https://localhost:8443 -o /dev/null || exit 1
